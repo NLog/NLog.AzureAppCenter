@@ -6,7 +6,7 @@
 
 1) Install the package
 
-    `Install-Package NLog.MailKit` or in your csproj:
+    `Install-Package NLog.Targets.AppCenter` or in your csproj:
 
     ```xml
     <PackageReference Include="NLog.Targets.AppCenter" Version="1.0.0" />
