@@ -30,11 +30,11 @@ NLog Target for [Microsoft AppCenter](https://docs.microsoft.com/appcenter/)
 		<contextproperty name="logger" layout="${logger}" />
 		<contextproperty name="loglevel" layout="${level}" />
 		<contextproperty name="threadid" layout="${threadid}" />
-	</target>
+        </target>
     </targets>
-	<rules>
-		<logger minLevel="Info" writeTo="appcenter" />
-	</rules
+    <rules>
+        <logger minLevel="Info" writeTo="appcenter" />
+    </rules
     ```
 
 ### Configuration options for AppCenterTarget
