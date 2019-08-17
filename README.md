@@ -27,10 +27,10 @@ NLog Target for [Microsoft AppCenter](https://docs.microsoft.com/appcenter/)
     ```xml
     <targets>
         <target name="appcenter" xsi:type="appcenter" layout="${message}" reportExceptionAsCrash="true">
-			<contextproperty name="logger" layout="${logger}" />
-			<contextproperty name="loglevel" layout="${level}" />
-			<contextproperty name="threadid" layout="${threadid}" />
-		</target>
+		<contextproperty name="logger" layout="${logger}" />
+		<contextproperty name="loglevel" layout="${level}" />
+		<contextproperty name="threadid" layout="${threadid}" />
+	</target>
     </targets>
 	<rules>
 		<logger minLevel="Info" writeTo="appcenter" />
