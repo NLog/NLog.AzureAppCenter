@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45;netstandard2.0;netstandard1.3</TargetFrameworks>
+    
+    <Version>1.0.0</Version>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Title>NLog.Targets.AppCenter</Title>
+    <Company>NLog</Company>
+    <Description>NLog Target for Microsoft AppCenter - https://docs.microsoft.com/appcenter/ </Description>
+    <PackageTags>AppCenter;NLog;logging;log</PackageTags>
+    <PackageIconUrl>https://nlog-project.org/N.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/NLog/NLog.AppCenter</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/NLog/NLog.AppCenter/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/NLog/NLog.AppCenter.git</RepositoryUrl>
+
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="2.1.1" />
+    <PackageReference Include="NLog" Version="4.5.11" />
+  </ItemGroup>
+
+</Project>
