@@ -1,4 +1,6 @@
 # NLog.AppCenter
+NLog Target for [Microsoft AppCenter](https://docs.microsoft.com/appcenter/)
+
 [![Version](https://badge.fury.io/nu/NLog.Targets.AppCenter.svg)](https://www.nuget.org/packages/NLog.Targets.AppCenter)
 [![AppVeyor](https://img.shields.io/appveyor/ci/nlog/nlog-appcenter/master.svg)](https://ci.appveyor.com/project/nlog/nlog-appcenter/branch/master)
 
