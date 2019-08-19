@@ -42,3 +42,6 @@ NLog Target for [Microsoft AppCenter](https://docs.microsoft.com/appcenter/)
 - **AppSecret** - Appsecret for starting AppCenter if needed (optional)
 - **UserId** - Application UserId to register in AppCenter (optional)
 - **ReportExceptionAsCrash** - Report all exceptions as crashes to AppCenter (default=false)
+- **IncludeEventProperties** - Include LogEvent properties in AppCenter properties (default=true)
+- **IncludeMdlc** - Include MappedDiagnosticsLogicalContext (MLDC) that can be provided with MEL BeginScope (default=false)
+
