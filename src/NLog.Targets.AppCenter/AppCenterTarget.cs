@@ -143,7 +143,7 @@ namespace NLog.Targets
         }
 
         /// <remarks>
-        ///     The name parameter can not be null or empty.Maximum allowed length = 256.
+        ///     The name parameter can not be null or empty, Maximum allowed length = 256.
         ///     The properties parameter maximum item count = 20.
         ///     The properties keys/names can not be null or empty, maximum allowed key length = 125.
         ///     The properties values can not be null, maximum allowed value length = 125.
@@ -178,6 +178,15 @@ namespace NLog.Targets
 
         private void TrackEvent(string eventName, Exception exception, IDictionary<string, string> properties = null)
         {
+            if (string.IsNullOrWhiteSpace(eventName))
+            {
+                // Avoid event being discarded when name is null or empty
+                if (exception != null)
+                    eventName = exception.GetType().ToString();
+                else if (properties?.Count > 0)
+                    eventName = nameof(AppCenterTarget);
+            }
+
             if (ReportExceptionAsCrash && exception != null)
             {
                 properties = properties ?? new Dictionary<string, string>(1);
