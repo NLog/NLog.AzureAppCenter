@@ -2,7 +2,7 @@
 NLog Target for [Microsoft Visual Studio AppCenter with Azure](https://azure.microsoft.com/services/app-center/)
 
 [![Version](https://badge.fury.io/nu/NLog.Targets.AppCenter.svg)](https://www.nuget.org/packages/NLog.Targets.AppCenter)
-[![AppVeyor](https://img.shields.io/appveyor/ci/nlog/nlog-appcenter/master.svg)](https://ci.appveyor.com/project/nlog/nlog-appcenter/branch/master)
+[![AppVeyor](https://img.shields.io/appveyor/ci/nlog/nlog-azureappcenter/master.svg)](https://ci.appveyor.com/project/nlog/nlog-azureappcenter/branch/master)
 
 ### How to use
 
