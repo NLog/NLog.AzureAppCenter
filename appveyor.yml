@@ -7,7 +7,7 @@ dotnet_csproj:
   file: '**\*.csproj'
   version: '1.0.0'
   file_version: '{version}'
-build:
+build_script:
 - ps: msbuild /t:restore,pack /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /verbosity:minimal
 test_script:
 - ps: dotnet test tests\NLog.Targets.AppCenter.Tests\NLog.Targets.AppCenter.Tests.csproj
