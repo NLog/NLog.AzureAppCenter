@@ -1,5 +1,5 @@
 # NLog.AzureAppCenter
-NLog Target for [Microsoft Visual Studio AppCenter with Azure](https://azure.microsoft.com/services/app-center/)
+NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.microsoft.com/services/app-center/)
 
 [![Version](https://badge.fury.io/nu/NLog.Targets.AppCenter.svg)](https://www.nuget.org/packages/NLog.Targets.AppCenter)
 [![AppVeyor](https://img.shields.io/appveyor/ci/nlog/nlog-azureappcenter/master.svg)](https://ci.appveyor.com/project/nlog/nlog-azureappcenter/branch/master)
@@ -34,7 +34,7 @@ NLog Target for [Microsoft Visual Studio AppCenter with Azure](https://azure.mic
     </targets>
     <rules>
         <logger minLevel="Info" writeTo="appcenter" />
-    </rules
+    </rules>
     ```
 
 ### Configuration options for AppCenterTarget
