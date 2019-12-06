@@ -5,7 +5,7 @@
     
     <FileVersion>1.0.0.0</FileVersion> <!-- FileVersion patched on AppVeyor  -->
     <AssemblyVersion>1.0.0.0</AssemblyVersion> <!-- AssemblyVersion must be fixed on 1.0.0.0 -->
-    <PackageVersion>1.1.0</PackageVersion>  
+    <Version>1.1.0</Version>  
     <Title>NLog.Targets.AppCenter</Title>
     <Company>NLog</Company>
     <Description>NLog Target for Microsoft AppCenter - https://docs.microsoft.com/appcenter/ </Description>
