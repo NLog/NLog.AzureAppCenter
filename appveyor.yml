@@ -5,6 +5,7 @@ platform: Any CPU
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
+  version: '1'1
   assembly_version: '1.0.0.0'
   file_version: '{version}'
   package_version: '1.1'
