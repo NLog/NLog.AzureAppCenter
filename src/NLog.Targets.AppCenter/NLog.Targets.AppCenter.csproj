@@ -3,9 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard2.0;netstandard1.3</TargetFrameworks>
     
-    <FileVersion>1.0.0.0</FileVersion> <!-- FileVersion patched on AppVeyor  -->
-    <AssemblyVersion>1.0.0.0</AssemblyVersion> <!-- AssemblyVersion must be fixed on 1.0.0.0 -->
-    <VersionPrefix>1.1.0</VersionPrefix>  
+
     <Title>NLog.Targets.AppCenter</Title>
     <Company>NLog</Company>
     <Description>NLog Target for Microsoft AppCenter - https://docs.microsoft.com/appcenter/ </Description>
@@ -22,6 +20,10 @@
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    
+    <FileVersion>1.0.0.0</FileVersion> <!-- FileVersion patched on AppVeyor  -->
+    <AssemblyVersion>1.0.0.0</AssemblyVersion> <!-- AssemblyVersion must be fixed on 1.0.0.0 -->
+    <VersionPrefix>1.0.0</VersionPrefix>   <!-- VersionPrefix patched on AppVeyor  -->
   </PropertyGroup>
 
   <ItemGroup>
