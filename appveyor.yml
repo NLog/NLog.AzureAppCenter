@@ -2,12 +2,6 @@ version: 1.0.0.{build}
 image: Visual Studio 2017
 configuration: Release
 platform: Any CPU
-dotnet_csproj:
-  patch: true
-  file: '**\*.csproj'
-  version_prefix: '1.1'
-  assembly_version: '1.0.0.0'
-  file_version: '{version}'
 build_script:
 - ps: msbuild /t:restore,pack /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /verbosity:minimal
 test_script:
