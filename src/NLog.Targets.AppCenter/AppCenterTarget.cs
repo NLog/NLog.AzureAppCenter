@@ -103,9 +103,9 @@ namespace NLog.Targets
 
             try
             {
-                if (!Microsoft.AppCenter.Analytics.Analytics.IsEnabledAsync().GetAwaiter().GetResult())
+                if (!Microsoft.AppCenter.Analytics.Analytics.IsEnabledAsync().ConfigureAwait(false).GetAwaiter().GetResult())
                 {
-                    Microsoft.AppCenter.Analytics.Analytics.SetEnabledAsync(true).GetAwaiter().GetResult();
+                    Microsoft.AppCenter.Analytics.Analytics.SetEnabledAsync(true).ConfigureAwait(false).GetAwaiter().GetResult();
                 }
             }
             catch (Exception ex)
@@ -116,9 +116,9 @@ namespace NLog.Targets
 
             try
             {
-                if (ReportExceptionAsCrash && !Microsoft.AppCenter.Crashes.Crashes.IsEnabledAsync().GetAwaiter().GetResult())
+                if (ReportExceptionAsCrash && !Microsoft.AppCenter.Crashes.Crashes.IsEnabledAsync().ConfigureAwait(false).GetAwaiter().GetResult())
                 {
-                    Microsoft.AppCenter.Crashes.Crashes.SetEnabledAsync(true).GetAwaiter().GetResult();
+                    Microsoft.AppCenter.Crashes.Crashes.SetEnabledAsync(true).ConfigureAwait(false).GetAwaiter().GetResult();
                 }
             }
             catch (Exception ex)
