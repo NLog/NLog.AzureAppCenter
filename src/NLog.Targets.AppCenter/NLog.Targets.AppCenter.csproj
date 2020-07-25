@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard2.0;netstandard1.3</TargetFrameworks>
-    <VersionPrefix>1.1.0</VersionPrefix>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion> <!-- AssemblyVersion must be fixed on 1.0.0.0 -->
+    <TargetFrameworks>net461;netstandard2.0;netstandard1.3</TargetFrameworks>
+    <VersionPrefix>2.0.0</VersionPrefix>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion> <!-- AssemblyVersion must be fixed on 2.0.0.0 -->
     <AppVeyorBuildNumber>$(APPVEYOR_BUILD_NUMBER)</AppVeyorBuildNumber>
     <AppVeyorBuildNumber Condition="'$(AppVeyorBuildNumber)' == ''">0</AppVeyorBuildNumber>
     <FileVersion>$(VersionPrefix).$(AppVeyorBuildNumber)</FileVersion>
@@ -18,7 +18,8 @@
     <PackageProjectUrl>https://github.com/NLog/NLog.AppCenter</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/NLog/NLog.AppCenter/blob/master/LICENSE</PackageLicenseUrl>
     <PackageReleaseNotes>
-      - Updated to Microsoft.AppCenter SDK ver. 2.6.2
+- Updated to Microsoft.AppCenter SDK ver. 3.3.0
+- Replaced Net45 with Net461
     </PackageReleaseNotes>
 
     <IsPackable>true</IsPackable>
@@ -28,8 +29,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="2.6.2" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="2.6.2" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.3.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.3.0" />
     <PackageReference Include="NLog" Version="4.5.11" />
   </ItemGroup>
 
