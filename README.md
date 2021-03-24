@@ -11,7 +11,7 @@ NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.mi
     `Install-Package NLog.Targets.AppCenter` or in your csproj:
 
     ```xml
-    <PackageReference Include="NLog.Targets.AppCenter" Version="1.0.0" />
+    <PackageReference Include="NLog.Targets.AppCenter" Version="2.*" />
     ```
 
 2) Add to your nlog.config:
