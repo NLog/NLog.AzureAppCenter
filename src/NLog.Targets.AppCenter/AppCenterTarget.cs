@@ -60,6 +60,11 @@ namespace NLog.Targets
         public bool ReportExceptionAsCrash { get; set; }
 
         /// <summary>
+        /// Get or set the path to a directory to zip and attach to AppCenter-Crashes
+        /// </summary>
+        public Layout PathToCrashAttachmentDirectory { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AppCenterTarget" /> class.
         /// </summary>
         public AppCenterTarget()
@@ -192,10 +197,63 @@ namespace NLog.Targets
                 properties = properties ?? new Dictionary<string, string>(1);
                 if (properties.Count < 20)
                     properties["EventName"] = eventName;
-                Microsoft.AppCenter.Crashes.Crashes.TrackError(exception, properties);
+
+                var path = RenderLogEvent(PathToCrashAttachmentDirectory, LogEventInfo.CreateNullEvent());
+                if (!string.IsNullOrEmpty(path))
+                {
+                    var errorAttachmentLogs = GetCompressedErrorAttachmentLogs(path);
+                    Microsoft.AppCenter.Crashes.Crashes.TrackError(exception, properties, errorAttachmentLogs.ToArray());
+                }
+                else 
+                    Microsoft.AppCenter.Crashes.Crashes.TrackError(exception, properties);
             }
 
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent(eventName, properties);
+        }
+
+        private List<Microsoft.AppCenter.Crashes.ErrorAttachmentLog> GetCompressedErrorAttachmentLogs(string path)
+        {
+            var errorAttachements = new List<Microsoft.AppCenter.Crashes.ErrorAttachmentLog>();
+            var directoryToCompress = new System.IO.DirectoryInfo(path);
+            if (directoryToCompress.Exists)
+            {
+                var compressedFiles = Compress(directoryToCompress);
+                foreach (System.IO.FileInfo compressedFile in compressedFiles)
+                {
+                    var errorAttachement = Microsoft.AppCenter.Crashes.ErrorAttachmentLog.AttachmentWithBinary(
+                                                                System.IO.File.ReadAllBytes(compressedFile.FullName), 
+                                                                compressedFile.FullName,
+                                                                "application/x-zip-compressed");                   
+                    errorAttachements.Add(errorAttachement);
+                }
+            }
+            return errorAttachements;
+        }
+
+        private List<System.IO.FileInfo> Compress(System.IO.DirectoryInfo directorySelected)
+        {
+            var compressedFiles = new List<System.IO.FileInfo>();
+            foreach (System.IO.FileInfo fileToCompress in directorySelected.GetFiles())
+            {
+                using (System.IO.FileStream originalFileStream = fileToCompress.OpenRead())
+                {
+                    if ((System.IO.File.GetAttributes(fileToCompress.FullName) &
+                       System.IO.FileAttributes.Hidden) != System.IO.FileAttributes.Hidden & fileToCompress.Extension != ".gz")
+                    {
+                        using (System.IO.FileStream compressedFileStream = System.IO.File.Create(fileToCompress.FullName + ".gz"))
+                        {
+                            using (System.IO.Compression.GZipStream compressionStream = new System.IO.Compression.GZipStream(compressedFileStream,
+                               System.IO.Compression.CompressionMode.Compress))
+                            {
+                                originalFileStream.CopyTo(compressionStream);
+                            }
+                        }
+                        System.IO.FileInfo info = new System.IO.FileInfo(directorySelected.FullName + System.IO.Path.DirectorySeparatorChar + fileToCompress.Name + ".gz");
+                        compressedFiles.Add(info);
+                    }
+                }
+            }
+            return compressedFiles;
         }
     }
 }

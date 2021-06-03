@@ -42,6 +42,7 @@ NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.mi
 - **AppSecret** - Appsecret for starting AppCenter if needed (optional)
 - **UserId** - Application UserId to register in AppCenter (optional)
 - **ReportExceptionAsCrash** - Report all exceptions as crashes to AppCenter (default=false)
+- **PathToCrashAttachmentDirectory** - Path to the files to be attached in crashes to AppCenter. All files are compressed before attaching them (optional)
 - **IncludeEventProperties** - Include LogEvent properties in AppCenter properties (default=true)
 - **IncludeMdlc** - Include MappedDiagnosticsLogicalContext (MLDC) that can be provided with MEL BeginScope (default=false)
 
