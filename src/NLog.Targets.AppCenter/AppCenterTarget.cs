@@ -222,12 +222,21 @@ namespace NLog.Targets
                 {
                     var errorAttachement = Microsoft.AppCenter.Crashes.ErrorAttachmentLog.AttachmentWithBinary(
                                                                 System.IO.File.ReadAllBytes(compressedFile.FullName), 
-                                                                compressedFile.FullName,
+                                                                compressedFile.Name,
                                                                 "application/x-zip-compressed");                   
                     errorAttachements.Add(errorAttachement);
                 }
+                HouseKeeping(compressedFiles);
             }
             return errorAttachements;
+        }
+
+        private void HouseKeeping(List<System.IO.FileInfo> compressedFiles)
+        {
+            foreach (System.IO.FileInfo compressedFile in compressedFiles)
+            {
+                compressedFile.Delete();
+            }
         }
 
         private List<System.IO.FileInfo> Compress(System.IO.DirectoryInfo directorySelected)
