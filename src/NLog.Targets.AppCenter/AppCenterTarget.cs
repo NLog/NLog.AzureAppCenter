@@ -79,7 +79,7 @@ namespace NLog.Targets
         /// Initializes a new instance of the <see cref="AppCenterTarget" /> class.
         /// </summary>
         public AppCenterTarget(string name)
-            :this()
+            : this()
         {
             Name = name;
         }
@@ -206,7 +206,7 @@ namespace NLog.Targets
                     var errorAttachmentLogs = GetCompressedErrorAttachmentLogs(path);
                     Microsoft.AppCenter.Crashes.Crashes.TrackError(exception, properties, errorAttachmentLogs.ToArray());
                 }
-                else 
+                else
                     Microsoft.AppCenter.Crashes.Crashes.TrackError(exception, properties);
             }
 
@@ -225,60 +225,39 @@ namespace NLog.Targets
             var directoryToCompress = new System.IO.DirectoryInfo(path);
             if (directoryToCompress.Exists)
             {
-                var compressedFiles = Compress(directoryToCompress);
-                foreach (System.IO.FileInfo compressedFile in compressedFiles)
+                foreach (System.IO.FileInfo fileToCompress in directoryToCompress.GetFiles())
                 {
                     if (attachedCount >= 10)
                         break;
 
-                    if (compressedFile.Length > 1024 * 1024)
-                        continue;
-
-                    var errorAttachement = Microsoft.AppCenter.Crashes.ErrorAttachmentLog.AttachmentWithBinary(
-                                                                System.IO.File.ReadAllBytes(compressedFile.FullName), 
-                                                                compressedFile.Name,
-                                                                "application/x-zip-compressed");                   
-                    errorAttachements.Add(errorAttachement);
-                    
-                    attachedCount++;
-                }
-                HouseKeeping(compressedFiles);
-            }
-            return errorAttachements;
-        }
-
-        private void HouseKeeping(List<System.IO.FileInfo> compressedFiles)
-        {
-            foreach (System.IO.FileInfo compressedFile in compressedFiles)
-            {
-                compressedFile.Delete();
-            }
-        }
-
-        private List<System.IO.FileInfo> Compress(System.IO.DirectoryInfo directorySelected)
-        {
-            var compressedFiles = new List<System.IO.FileInfo>();
-            foreach (System.IO.FileInfo fileToCompress in directorySelected.GetFiles())
-            {
-                using (System.IO.FileStream originalFileStream = fileToCompress.OpenRead())
-                {
-                    if ((System.IO.File.GetAttributes(fileToCompress.FullName) &
-                       System.IO.FileAttributes.Hidden) != System.IO.FileAttributes.Hidden & fileToCompress.Extension != ".gz")
+                    if ((System.IO.File.GetAttributes(fileToCompress.FullName) & System.IO.FileAttributes.Hidden) != System.IO.FileAttributes.Hidden)
                     {
-                        using (System.IO.FileStream compressedFileStream = System.IO.File.Create(fileToCompress.FullName + ".gz"))
+                        using (System.IO.FileStream originalFileStream = fileToCompress.OpenRead())
                         {
-                            using (System.IO.Compression.GZipStream compressionStream = new System.IO.Compression.GZipStream(compressedFileStream,
-                               System.IO.Compression.CompressionMode.Compress))
+                            using (System.IO.MemoryStream compressedFileStream = new System.IO.MemoryStream())
                             {
-                                originalFileStream.CopyTo(compressionStream);
+                                using (System.IO.Compression.GZipStream compressionStream = new System.IO.Compression.GZipStream(compressedFileStream,
+                                   System.IO.Compression.CompressionMode.Compress))
+                                {
+                                    originalFileStream.CopyTo(compressionStream);
+
+                                    if (compressedFileStream.Length > 1024 * 1024)
+                                        continue;
+
+                                    var errorAttachement = Microsoft.AppCenter.Crashes.ErrorAttachmentLog.AttachmentWithBinary(
+                                                                compressedFileStream.ToArray(),
+                                                                fileToCompress.Name + ".gz",
+                                                                "application/x-zip-compressed");
+                                    errorAttachements.Add(errorAttachement);
+
+                                    attachedCount++;
+                                }
                             }
                         }
-                        System.IO.FileInfo info = new System.IO.FileInfo(directorySelected.FullName + System.IO.Path.DirectorySeparatorChar + fileToCompress.Name + ".gz");
-                        compressedFiles.Add(info);
                     }
                 }
             }
-            return compressedFiles;
+            return errorAttachements;
         }
     }
 }
