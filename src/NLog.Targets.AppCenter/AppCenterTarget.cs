@@ -61,6 +61,8 @@ namespace NLog.Targets
 
         /// <summary>
         /// Get or set the path to a directory to zip and attach to AppCenter-Crashes
+        /// No more than 10 files will be attached
+        /// Files bigger than 1mb after (compressed) will be ignored
         /// </summary>
         public Layout PathToCrashAttachmentDirectory { get; set; }
 
@@ -211,8 +213,14 @@ namespace NLog.Targets
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent(eventName, properties);
         }
 
+        /// <remarks>
+        ///     The maximum attached file (compressed) size is 1mb.
+        ///     The maximum attached file count is 10.
+        /// </remarks>
         private List<Microsoft.AppCenter.Crashes.ErrorAttachmentLog> GetCompressedErrorAttachmentLogs(string path)
         {
+            int attachedCount = 0;
+
             var errorAttachements = new List<Microsoft.AppCenter.Crashes.ErrorAttachmentLog>();
             var directoryToCompress = new System.IO.DirectoryInfo(path);
             if (directoryToCompress.Exists)
@@ -220,11 +228,19 @@ namespace NLog.Targets
                 var compressedFiles = Compress(directoryToCompress);
                 foreach (System.IO.FileInfo compressedFile in compressedFiles)
                 {
+                    if (attachedCount >= 10)
+                        break;
+
+                    if (compressedFile.Length > 1024 * 1024)
+                        continue;
+
                     var errorAttachement = Microsoft.AppCenter.Crashes.ErrorAttachmentLog.AttachmentWithBinary(
                                                                 System.IO.File.ReadAllBytes(compressedFile.FullName), 
                                                                 compressedFile.Name,
                                                                 "application/x-zip-compressed");                   
                     errorAttachements.Add(errorAttachement);
+                    
+                    attachedCount++;
                 }
                 HouseKeeping(compressedFiles);
             }
