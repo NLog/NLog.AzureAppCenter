@@ -146,7 +146,8 @@ namespace NLog.Targets
         {
             var eventName = RenderLogEvent(Layout, logEvent);
             var properties = BuildProperties(logEvent);
-            TrackEvent(eventName, logEvent.Exception, properties);
+            var attachmentLogs = BuildAttachmentLogs(logEvent);
+            TrackEvent(eventName, logEvent.Exception, properties, attachmentLogs);
         }
 
         /// <remarks>
@@ -183,7 +184,7 @@ namespace NLog.Targets
             return null;
         }
 
-        private void TrackEvent(string eventName, Exception exception, IDictionary<string, string> properties = null)
+        private void TrackEvent(string eventName, Exception exception, IDictionary<string, string> properties = null, Microsoft.AppCenter.Crashes.ErrorAttachmentLog[] attachmentLogs = null)
         {
             if (string.IsNullOrWhiteSpace(eventName))
             {
@@ -200,64 +201,72 @@ namespace NLog.Targets
                 if (properties.Count < 20)
                     properties["EventName"] = eventName;
 
-                var path = RenderLogEvent(PathToCrashAttachmentDirectory, LogEventInfo.CreateNullEvent());
-                if (!string.IsNullOrEmpty(path))
-                {
-                    var errorAttachmentLogs = GetCompressedErrorAttachmentLogs(path);
-                    Microsoft.AppCenter.Crashes.Crashes.TrackError(exception, properties, errorAttachmentLogs.ToArray());
-                }
-                else
-                    Microsoft.AppCenter.Crashes.Crashes.TrackError(exception, properties);
+                Microsoft.AppCenter.Crashes.Crashes.TrackError(exception, properties, attachmentLogs);
             }
 
             Microsoft.AppCenter.Analytics.Analytics.TrackEvent(eventName, properties);
         }
 
         /// <remarks>
+        ///     The maximun file size (not compressed) is 10mb
         ///     The maximum attached file (compressed) size is 1mb.
         ///     The maximum attached file count is 10.
         /// </remarks>
-        private List<Microsoft.AppCenter.Crashes.ErrorAttachmentLog> GetCompressedErrorAttachmentLogs(string path)
+        private Microsoft.AppCenter.Crashes.ErrorAttachmentLog[] BuildAttachmentLogs(LogEventInfo logEvent)
         {
-            int attachedCount = 0;
-
-            var errorAttachements = new List<Microsoft.AppCenter.Crashes.ErrorAttachmentLog>();
-            var directoryToCompress = new System.IO.DirectoryInfo(path);
-            if (directoryToCompress.Exists)
+            var path = RenderLogEvent(PathToCrashAttachmentDirectory, LogEventInfo.CreateNullEvent());
+            if (!string.IsNullOrEmpty(path))
             {
-                foreach (System.IO.FileInfo fileToCompress in directoryToCompress.GetFiles())
+                var errorAttachements = new List<Microsoft.AppCenter.Crashes.ErrorAttachmentLog>();
+                try
                 {
-                    if (attachedCount >= 10)
-                        break;
-
-                    if ((System.IO.File.GetAttributes(fileToCompress.FullName) & System.IO.FileAttributes.Hidden) != System.IO.FileAttributes.Hidden)
+                    var directoryToCompress = new System.IO.DirectoryInfo(path);
+                    if (directoryToCompress.Exists)
                     {
-                        using (System.IO.FileStream originalFileStream = fileToCompress.OpenRead())
+                        foreach (System.IO.FileInfo fileToCompress in directoryToCompress.GetFiles())
                         {
-                            using (System.IO.MemoryStream compressedFileStream = new System.IO.MemoryStream())
+                            // 10mb file size limit
+                            if (fileToCompress.Length > 1024 * 1024 * 10)
+                                continue;
+
+                            if (errorAttachements.Count >= 10)
+                                break;
+
+                            if ((System.IO.File.GetAttributes(fileToCompress.FullName) & System.IO.FileAttributes.Hidden) != System.IO.FileAttributes.Hidden)
                             {
-                                using (System.IO.Compression.GZipStream compressionStream = new System.IO.Compression.GZipStream(compressedFileStream,
-                                   System.IO.Compression.CompressionMode.Compress))
+                                using (System.IO.FileStream originalFileStream = fileToCompress.OpenRead())
                                 {
-                                    originalFileStream.CopyTo(compressionStream);
+                                    using (System.IO.MemoryStream compressedFileStream = new System.IO.MemoryStream())
+                                    {
+                                        using (System.IO.Compression.GZipStream compressionStream = new System.IO.Compression.GZipStream(compressedFileStream, System.IO.Compression.CompressionMode.Compress))
+                                        {
+                                            originalFileStream.CopyTo(compressionStream);
 
-                                    if (compressedFileStream.Length > 1024 * 1024)
-                                        continue;
+                                            // 1mb compressed file size limit
+                                            if (compressedFileStream.Length > 1024 * 1024)
+                                                continue;
 
-                                    var errorAttachement = Microsoft.AppCenter.Crashes.ErrorAttachmentLog.AttachmentWithBinary(
-                                                                compressedFileStream.ToArray(),
-                                                                fileToCompress.Name + ".gz",
-                                                                "application/x-zip-compressed");
-                                    errorAttachements.Add(errorAttachement);
-
-                                    attachedCount++;
+                                            var errorAttachement = Microsoft.AppCenter.Crashes.ErrorAttachmentLog.AttachmentWithBinary(
+                                                                        compressedFileStream.ToArray(),
+                                                                        fileToCompress.Name + ".gz",
+                                                                        "application/x-zip-compressed");
+                                            errorAttachements.Add(errorAttachement);
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                catch (Exception ex)
+                {
+                    InternalLogger.Error(ex, "BuildAttachmentLogs(Path={0}): Failed to attach directory content", path);
+                    throw;
+                }
+                return errorAttachements.ToArray();
             }
-            return errorAttachements;
+            else
+                return Array.Empty<Microsoft.AppCenter.Crashes.ErrorAttachmentLog>();
         }
     }
 }
