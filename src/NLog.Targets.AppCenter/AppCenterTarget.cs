@@ -261,7 +261,6 @@ namespace NLog.Targets
                 catch (Exception ex)
                 {
                     InternalLogger.Error(ex, "BuildAttachmentLogs(Path={0}): Failed to attach directory content", path);
-                    throw;
                 }
                 return errorAttachements.ToArray();
             }
