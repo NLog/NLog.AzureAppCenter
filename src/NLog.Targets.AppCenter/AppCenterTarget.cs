@@ -214,7 +214,7 @@ namespace NLog.Targets
         /// </remarks>
         private Microsoft.AppCenter.Crashes.ErrorAttachmentLog[] BuildAttachmentLogs(LogEventInfo logEvent)
         {
-            var path = RenderLogEvent(PathToCrashAttachmentDirectory, LogEventInfo.CreateNullEvent());
+            var path = RenderLogEvent(PathToCrashAttachmentDirectory, logEvent);
             if (!string.IsNullOrEmpty(path))
             {
                 var errorAttachements = new List<Microsoft.AppCenter.Crashes.ErrorAttachmentLog>();
