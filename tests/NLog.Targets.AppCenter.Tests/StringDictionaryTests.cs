@@ -83,10 +83,10 @@ namespace NLog.Targets.AppCenter.Tests
             var objectDictionary = new Dictionary<string, object>();
             var stringDictionary = new StringDictionary(objectDictionary);
             Assert.False(stringDictionary.ContainsKey("key"));
-            Assert.False(stringDictionary.Contains(new KeyValuePair<string, string>("key", "value")));
+            Assert.DoesNotContain(new KeyValuePair<string, string>("key", "value"), stringDictionary);
             objectDictionary["key"] = "value";
             Assert.True(stringDictionary.ContainsKey("key"));
-            Assert.True(stringDictionary.Contains(new KeyValuePair<string, string>("key", "value")));
+            Assert.Contains(new KeyValuePair<string, string>("key", "value"), stringDictionary);
         }
 
         [Fact]

@@ -139,6 +139,16 @@ namespace NLog.Targets
         {
             var eventName = RenderLogEvent(Layout, logEvent);
             var properties = BuildProperties(logEvent);
+
+            if (string.IsNullOrWhiteSpace(eventName))
+            {
+                // Avoid event being discarded when name is null or empty
+                if (logEvent.Exception != null)
+                    eventName = logEvent.Exception.GetType().ToString();
+                else if (properties?.Count > 0)
+                    eventName = nameof(AppCenterTarget);
+            }
+
             TrackEvent(eventName, logEvent.Exception, properties);
         }
 
@@ -178,15 +188,6 @@ namespace NLog.Targets
 
         private void TrackEvent(string eventName, Exception exception, IDictionary<string, string> properties = null)
         {
-            if (string.IsNullOrWhiteSpace(eventName))
-            {
-                // Avoid event being discarded when name is null or empty
-                if (exception != null)
-                    eventName = exception.GetType().ToString();
-                else if (properties?.Count > 0)
-                    eventName = nameof(AppCenterTarget);
-            }
-
             if (ReportExceptionAsCrash && exception != null)
             {
                 properties = properties ?? new Dictionary<string, string>(1);
