@@ -1,4 +1,4 @@
-# NLog.AzureAppCenter
+# NLog.AppCenter
 NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.microsoft.com/services/app-center/)
 
 [![Version](https://badge.fury.io/nu/NLog.Targets.AppCenter.svg)](https://www.nuget.org/packages/NLog.Targets.AppCenter)
