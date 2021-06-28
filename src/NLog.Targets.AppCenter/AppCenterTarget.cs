@@ -146,6 +146,16 @@ namespace NLog.Targets
         {
             var eventName = RenderLogEvent(Layout, logEvent);
             var properties = BuildProperties(logEvent);
+
+            if (string.IsNullOrWhiteSpace(eventName))
+            {
+                // Avoid event being discarded when name is null or empty
+                if (logEvent.Exception != null)
+                    eventName = logEvent.Exception.GetType().ToString();
+                else if (properties?.Count > 0)
+                    eventName = nameof(AppCenterTarget);
+            }
+
             var attachmentLogs = BuildAttachmentLogs(logEvent);
             TrackEvent(eventName, logEvent.Exception, properties, attachmentLogs);
         }
@@ -215,57 +225,57 @@ namespace NLog.Targets
         private Microsoft.AppCenter.Crashes.ErrorAttachmentLog[] BuildAttachmentLogs(LogEventInfo logEvent)
         {
             var path = RenderLogEvent(PathToCrashAttachmentDirectory, logEvent);
-            if (!string.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(path))
             {
-                var errorAttachements = new List<Microsoft.AppCenter.Crashes.ErrorAttachmentLog>();
-                try
+                return Array.Empty<Microsoft.AppCenter.Crashes.ErrorAttachmentLog>();
+            }
+
+            var errorAttachements = new List<Microsoft.AppCenter.Crashes.ErrorAttachmentLog>();
+            try
+            {
+                var directoryToCompress = new System.IO.DirectoryInfo(path);
+                if (directoryToCompress.Exists)
                 {
-                    var directoryToCompress = new System.IO.DirectoryInfo(path);
-                    if (directoryToCompress.Exists)
+                    foreach (System.IO.FileInfo fileToCompress in directoryToCompress.GetFiles())
                     {
-                        foreach (System.IO.FileInfo fileToCompress in directoryToCompress.GetFiles())
+                        // 10mb file size limit
+                        if (fileToCompress.Length > 1024 * 1024 * 10)
+                            continue;
+
+                        if (errorAttachements.Count >= 10)
+                            break;
+
+                        if ((System.IO.File.GetAttributes(fileToCompress.FullName) & System.IO.FileAttributes.Hidden) != System.IO.FileAttributes.Hidden)
                         {
-                            // 10mb file size limit
-                            if (fileToCompress.Length > 1024 * 1024 * 10)
-                                continue;
-
-                            if (errorAttachements.Count >= 10)
-                                break;
-
-                            if ((System.IO.File.GetAttributes(fileToCompress.FullName) & System.IO.FileAttributes.Hidden) != System.IO.FileAttributes.Hidden)
+                            using (System.IO.FileStream originalFileStream = fileToCompress.OpenRead())
                             {
-                                using (System.IO.FileStream originalFileStream = fileToCompress.OpenRead())
+                                using (System.IO.MemoryStream compressedFileStream = new System.IO.MemoryStream())
                                 {
-                                    using (System.IO.MemoryStream compressedFileStream = new System.IO.MemoryStream())
+                                    using (System.IO.Compression.GZipStream compressionStream = new System.IO.Compression.GZipStream(compressedFileStream, System.IO.Compression.CompressionMode.Compress))
                                     {
-                                        using (System.IO.Compression.GZipStream compressionStream = new System.IO.Compression.GZipStream(compressedFileStream, System.IO.Compression.CompressionMode.Compress))
-                                        {
-                                            originalFileStream.CopyTo(compressionStream);
+                                        originalFileStream.CopyTo(compressionStream);
 
-                                            // 1mb compressed file size limit
-                                            if (compressedFileStream.Length > 1024 * 1024)
-                                                continue;
+                                        // 1mb compressed file size limit
+                                        if (compressedFileStream.Length > 1024 * 1024)
+                                            continue;
 
-                                            var errorAttachement = Microsoft.AppCenter.Crashes.ErrorAttachmentLog.AttachmentWithBinary(
-                                                                        compressedFileStream.ToArray(),
-                                                                        fileToCompress.Name + ".gz",
-                                                                        "application/x-zip-compressed");
-                                            errorAttachements.Add(errorAttachement);
-                                        }
+                                        var errorAttachement = Microsoft.AppCenter.Crashes.ErrorAttachmentLog.AttachmentWithBinary(
+                                                                    compressedFileStream.ToArray(),
+                                                                    fileToCompress.Name + ".gz",
+                                                                    "application/x-zip-compressed");
+                                        errorAttachements.Add(errorAttachement);
                                     }
                                 }
                             }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    InternalLogger.Error(ex, "BuildAttachmentLogs(Path={0}): Failed to attach directory content", path);
-                }
-                return errorAttachements.ToArray();
             }
-            else
-                return Array.Empty<Microsoft.AppCenter.Crashes.ErrorAttachmentLog>();
+            catch (Exception ex)
+            {
+                InternalLogger.Error(ex, "BuildAttachmentLogs(Path={0}): Failed to attach directory content", path);
+            }
+            return errorAttachements.ToArray();
         }
     }
 }
