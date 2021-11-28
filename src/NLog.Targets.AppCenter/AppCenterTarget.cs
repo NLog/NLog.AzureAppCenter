@@ -55,6 +55,19 @@ namespace NLog.Targets
         public Layout UserId { get; set; }
 
         /// <summary>
+        /// Get or set the base URL (scheme + authority + port only) used to communicate with the backend (optional)
+        /// </summary>
+        /// <remarks>
+        /// Example "http://nginx:port"
+        /// </remarks>
+        public Layout LogUrl { get; set; }
+
+        /// <summary>
+        /// Get or set two-letter ISO country code to send to the backend (optional)
+        /// </summary>
+        public Layout CountryCode { get; set; }
+
+        /// <summary>
         /// Get or set whether to activate AppCenter-Crashes and report Exceptions as crashes
         /// </summary>
         public bool ReportExceptionAsCrash { get; set; }
@@ -132,6 +145,20 @@ namespace NLog.Targets
             {
                 Microsoft.AppCenter.AppCenter.SetUserId(userId);
             }
+
+            var logUrl = RenderLogEvent(LogUrl, LogEventInfo.CreateNullEvent());
+            if (!string.IsNullOrEmpty(logUrl))
+            {
+                Microsoft.AppCenter.AppCenter.SetLogUrl(logUrl);
+            }
+
+#if !NETSTANDARD
+            var countryCode = RenderLogEvent(CountryCode, LogEventInfo.CreateNullEvent());
+            if (!string.IsNullOrEmpty(countryCode))
+            {
+                Microsoft.AppCenter.AppCenter.SetCountryCode(countryCode);
+            }
+#endif
         }
 
         /// <inheritdoc />
