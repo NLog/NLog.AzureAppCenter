@@ -41,6 +41,8 @@ NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.mi
 
 - **AppSecret** - Appsecret for starting AppCenter if needed (optional)
 - **UserId** - Application UserId to register in AppCenter (optional)
+- **LogUrl** - Base URL (scheme + authority + port only) to the AppCenter-backend (optional)
+- **CountryCode** - Two-letter ISO country code to send to the AppCenter-backend (optional)
 - **ReportExceptionAsCrash** - Report all exceptions as crashes to AppCenter (default=false)
 - **IncludeEventProperties** - Include LogEvent properties in AppCenter properties (default=true)
 - **IncludeMdlc** - Include MappedDiagnosticsLogicalContext (MLDC) that can be provided with MEL BeginScope (default=false)

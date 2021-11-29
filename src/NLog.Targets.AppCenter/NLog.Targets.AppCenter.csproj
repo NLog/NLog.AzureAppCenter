@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard2.0;netstandard1.3</TargetFrameworks>
-    <VersionPrefix>2.2.0</VersionPrefix>
+    <VersionPrefix>2.3.0</VersionPrefix>
     <AssemblyVersion>2.0.0.0</AssemblyVersion> <!-- AssemblyVersion must be fixed on 2.0.0.0 -->
     <AppVeyorBuildNumber>$(APPVEYOR_BUILD_NUMBER)</AppVeyorBuildNumber>
     <AppVeyorBuildNumber Condition="'$(AppVeyorBuildNumber)' == ''">0</AppVeyorBuildNumber>
@@ -18,8 +18,7 @@
     <PackageIcon>N.png</PackageIcon>
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageReleaseNotes>
-- Updated to Microsoft.AppCenter SDK ver. 4.3.0 (Bug fixes)
-- Enabled deterministic build and SourceLink
+- Added support for override of LogUrl and CountryCode
     </PackageReleaseNotes>
 
     <IsPackable>true</IsPackable>
