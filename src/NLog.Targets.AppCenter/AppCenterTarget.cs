@@ -152,13 +152,11 @@ namespace NLog.Targets
                 Microsoft.AppCenter.AppCenter.SetLogUrl(logUrl);
             }
 
-#if !NETSTANDARD
             var countryCode = RenderLogEvent(CountryCode, LogEventInfo.CreateNullEvent());
             if (!string.IsNullOrEmpty(countryCode))
             {
                 Microsoft.AppCenter.AppCenter.SetCountryCode(countryCode);
             }
-#endif
         }
 
         /// <inheritdoc />
