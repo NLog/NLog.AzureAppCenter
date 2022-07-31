@@ -45,5 +45,5 @@ NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.mi
 - **CountryCode** - Two-letter ISO country code to send to the AppCenter-backend (optional)
 - **ReportExceptionAsCrash** - Report all exceptions as crashes to AppCenter (default=false)
 - **IncludeEventProperties** - Include LogEvent properties in AppCenter properties (default=true)
-- **IncludeMdlc** - Include MappedDiagnosticsLogicalContext (MLDC) that can be provided with MEL BeginScope (default=false)
+- **IncludeScopeProperties** - Include MappedDiagnosticsLogicalContext (MLDC) that can be provided with MEL BeginScope (default=false)
 
