@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' != 'true'">netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' == 'true'">netstandard2.0;Xamarin.iOS10;Xamarin.Mac20;MonoAndroid90;net6.0-ios;net6.0-macos;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
+    <Title>NLog.Targets.Xamarin</Title>
+    <Company>NLog</Company>
+    <Description>NLog Debug Target for Xamarin Platforms</Description>
+
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'MonoAndroid90' Or '$(TargetFramework)' == 'net6.0-android' ">
+    <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' Or '$(TargetFramework)' == 'Xamarin.Mac20' Or '$(TargetFramework)' == 'net6.0-ios' Or '$(TargetFramework)' == 'net6.0-macos' Or '$(TargetFramework)' == 'net6.0-maccatalyst' ">
+    <DefineConstants>$(DefineConstants);__APPLE__</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="5.0.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>
