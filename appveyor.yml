@@ -1,7 +1,6 @@
 version: 1.0.0.{build}
 image: Visual Studio 2022
 configuration: Release
-platform: Any CPU
 build_script:
 - ps: dotnet workload install maui macos android ios maccatalyst
 - ps: msbuild /t:restore,pack /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:ContinuousIntegrationBuild=true /p:EmbedUntrackedSources=true /p:PublishRepositoryUrl=true /verbosity:minimal

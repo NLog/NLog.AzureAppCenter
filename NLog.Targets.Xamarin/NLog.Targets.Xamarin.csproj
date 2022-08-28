@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' != 'true'">netstandard2.0;net461</TargetFrameworks>
@@ -22,6 +22,10 @@
     <DefineConstants>$(DefineConstants);__APPLE__</DefineConstants>
   </PropertyGroup>
 
+  <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' Or '$(TargetFramework)' == 'Xamarin.Mac20' ">
+    <Reference Include="netstandard" />
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="NLog" Version="5.0.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
