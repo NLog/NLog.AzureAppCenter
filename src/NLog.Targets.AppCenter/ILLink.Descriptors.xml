@@ -1,0 +1,4 @@
+<linker>
+  <assembly fullname="NLog" preserve="all" />
+  <assembly fullname="NLog.Targets.AppCenter" preserve="all" />
+</linker>
