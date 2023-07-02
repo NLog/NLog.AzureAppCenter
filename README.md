@@ -38,7 +38,7 @@ NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.mi
 
 3) **Load NLog configuration for logging**
 
-   Add the `NLog.config` into the Application-project as assembly-resource (`Build Action` = `embedded resource`), and load like this:
+   Add the `NLog.config`-file into the Application-project as assembly-resource (`Build Action` = `embedded resource`), and load like this:
    ```csharp
    NLog.LogManager.Setup().RegisterAppCenter().LoadConfigurationFromAssemblyResource(typeof(App).Assembly);
    ```
@@ -59,6 +59,7 @@ NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.mi
 - **IncludeEventProperties** - Include LogEvent properties in AppCenter properties (default=true)
 - **IncludeScopeProperties** - Include MappedDiagnosticsLogicalContext (MLDC) that can be provided with MEL BeginScope (default=false)
 
+Example `NLog.config`-file:
 ```xml
 <nlog>
 <extensions>
@@ -72,7 +73,7 @@ NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.mi
     </target>
 </targets>
 <rules>
-    <logger minLevel="Info" writeTo="appcenter" />
+    <logger name="*" minLevel="Info" writeTo="appcenter" />
 </rules>
 </nlog>
 ```
