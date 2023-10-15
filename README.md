@@ -40,7 +40,8 @@ NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.mi
 
    Add the `NLog.config`-file into the Application-project as assembly-resource (`Build Action` = `embedded resource`), and load like this:
    ```csharp
-   NLog.LogManager.Setup().RegisterAppCenter().LoadConfigurationFromAssemblyResource(typeof(App).Assembly);
+   NLog.LogManager.Setup().RegisterAppCenter()
+       .LoadConfigurationFromAssemblyResource(typeof(App).Assembly);
    ```
    Alternative setup NLog configuration using [fluent-API](https://github.com/NLog/NLog/wiki/Fluent-Configuration-API):
    ```csharp
