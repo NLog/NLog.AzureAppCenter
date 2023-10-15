@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
-    <VersionPrefix>5.2.0</VersionPrefix>
+    <VersionPrefix>5.2.1</VersionPrefix>
     <AssemblyVersion>5.0.0.0</AssemblyVersion> <!-- Strong AssemblyVersion must be fixed on 5.0.0.0 -->
     <AppVeyorBuildNumber>$(APPVEYOR_BUILD_NUMBER)</AppVeyorBuildNumber>
     <AppVeyorBuildNumber Condition="'$(AppVeyorBuildNumber)' == ''">0</AppVeyorBuildNumber>
@@ -17,9 +17,10 @@
     <PackageProjectUrl>https://github.com/NLog/NLog.AppCenter</PackageProjectUrl>
     <PackageIcon>N.png</PackageIcon>
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-- Updated dependency NLog v5.2
-- Updated dependency Microsoft.AppCenter v5.0.2
+- Updated dependency NLog v5.2.2
+- Added nuget-package README.md
 - Added fluent API Setup() extension methods RegisterAppCenter() and WriteToAppCenter()
     </PackageReleaseNotes>
 
@@ -38,7 +39,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.2" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.2" />
-    <PackageReference Include="NLog" Version="5.2.0" />
+    <PackageReference Include="NLog" Version="5.2.2" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
 
@@ -48,11 +49,12 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="" />
+    <None Include="N.png" Pack="true" PackagePath="" Visible="false" />
+  </ItemGroup>
   <Target Name="DownloadMissingContent" BeforeTargets="GenerateNuspec">
     <DownloadFile SourceUrl="https://nlog-project.org/N.png" DestinationFolder="$(MSBuildThisFileDirectory)" />
   </Target>
-  <ItemGroup>
-    <None Include="N.png" Pack="true" PackagePath="" Visible="false" />
-  </ItemGroup>
 
 </Project>

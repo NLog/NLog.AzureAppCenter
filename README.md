@@ -4,7 +4,7 @@ NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.mi
 [![Version](https://badge.fury.io/nu/NLog.Targets.AppCenter.svg)](https://www.nuget.org/packages/NLog.Targets.AppCenter)
 [![AppVeyor](https://img.shields.io/appveyor/ci/nlog/nlog-azureappcenter/master.svg)](https://ci.appveyor.com/project/nlog/nlog-azureappcenter/branch/master)
 
-### How to setup NLog in MAUI
+## How to setup NLog in MAUI
 
 1) **Install the NLog packages**
 
@@ -49,17 +49,19 @@ NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.mi
                     .GetCurrentClassLogger();
    ```
 
-### Configuration options for AppCenter NLog Target
+## Configuration options for AppCenter NLog Target
 
 - **AppSecret** - Appsecret for starting AppCenter if needed (optional)
 - **UserId** - Application UserId to register in AppCenter (optional)
 - **LogUrl** - Base URL (scheme + authority + port only) to the AppCenter-backend (optional)
 - **CountryCode** - Two-letter ISO country code to send to the AppCenter-backend (optional)
+- **DataResidencyRegion** - Country Code or other identifier of data residency region (optional)
 - **ReportExceptionAsCrash** - Report all exceptions as crashes to AppCenter (default=false)
 - **IncludeEventProperties** - Include LogEvent properties in AppCenter properties (default=true)
 - **IncludeScopeProperties** - Include MappedDiagnosticsLogicalContext (MLDC) that can be provided with MEL BeginScope (default=false)
 
-Example `NLog.config`-file:
+## Example NLog.config file
+
 ```xml
 <nlog>
 <extensions>
