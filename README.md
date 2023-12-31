@@ -46,7 +46,7 @@ NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.mi
    Alternative setup NLog configuration using [fluent-API](https://github.com/NLog/NLog/wiki/Fluent-Configuration-API):
    ```csharp
    var logger = NLog.LogManager.Setup().RegisterAppCenter()
-                    .LoadConfiguration(c => c.ForLogger(NLog.LogLevel.Debug).WriteToAppCenter())
+                    .LoadConfiguration(c => c.ForLogger().FilterMinLevel(NLog.LogLevel.Debug).WriteToAppCenter())
                     .GetCurrentClassLogger();
    ```
 
