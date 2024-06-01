@@ -1,8 +1,10 @@
-# NLog.Targets.AppCenter
+﻿# NLog.Targets.AppCenter
 NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.microsoft.com/services/app-center/)
 
 [![Version](https://badge.fury.io/nu/NLog.Targets.AppCenter.svg)](https://www.nuget.org/packages/NLog.Targets.AppCenter)
 [![AppVeyor](https://img.shields.io/appveyor/ci/nlog/nlog-azureappcenter/master.svg)](https://ci.appveyor.com/project/nlog/nlog-azureappcenter/branch/master)
+
+⚠️ Microsoft AppCenter will be retired - https://learn.microsoft.com/appcenter/retirement
 
 ## How to setup NLog in MAUI
 
@@ -64,12 +66,12 @@ NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.mi
 ## Example NLog.config file
 
 ```xml
-<nlog>
+<nlog throwConfigExceptions="true">
 <extensions>
     <add assembly="NLog.Targets.AppCenter"/>
 </extensions>
 <targets>
-    <target name="appcenter" xsi:type="appcenter" layout="${message}" reportExceptionAsCrash="true">
+    <target name="appcenter" type="appcenter" layout="${message}" reportExceptionAsCrash="true">
 	<contextproperty name="logger" layout="${logger}" />
 	<contextproperty name="loglevel" layout="${level}" />
 	<contextproperty name="threadid" layout="${threadid}" />
