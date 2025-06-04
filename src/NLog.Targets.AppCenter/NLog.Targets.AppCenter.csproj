@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
-    <VersionPrefix>5.2.2</VersionPrefix>
+    <VersionPrefix>5.2.3</VersionPrefix>
     <AssemblyVersion>5.0.0.0</AssemblyVersion> <!-- Strong AssemblyVersion must be fixed on 5.0.0.0 -->
     <AppVeyorBuildNumber>$(APPVEYOR_BUILD_NUMBER)</AppVeyorBuildNumber>
     <AppVeyorBuildNumber Condition="'$(AppVeyorBuildNumber)' == ''">0</AppVeyorBuildNumber>
@@ -19,7 +19,7 @@
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-- Updated Microsoft.AppCenter ver. 5.0.4
+- Updated Microsoft.AppCenter ver. 5.0.7
 - Notice Microsoft AppCenter will be retired - https://learn.microsoft.com/appcenter/retirement
     </PackageReleaseNotes>
 
@@ -36,8 +36,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.4" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.4" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.7" />
     <PackageReference Include="NLog" Version="5.2.2" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
