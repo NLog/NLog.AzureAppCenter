@@ -47,12 +47,12 @@ namespace NLog.Targets
         /// <summary>
         /// Get or set the appsecret for starting AppCenter if needed (optional)
         /// </summary>
-        public Layout AppSecret { get; set; }
+        public Layout? AppSecret { get; set; }
 
         /// <summary>
         /// Get or set the application UserId to register in AppCenter (optional)
         /// </summary>
-        public Layout UserId { get; set; }
+        public Layout? UserId { get; set; }
 
         /// <summary>
         /// Get or set the base URL (scheme + authority + port only) used to communicate with the backend (optional)
@@ -60,12 +60,12 @@ namespace NLog.Targets
         /// <remarks>
         /// Example "http://nginx:port"
         /// </remarks>
-        public Layout LogUrl { get; set; }
+        public Layout? LogUrl { get; set; }
 
         /// <summary>
         /// Get or set two-letter ISO country code to send to the backend (optional)
         /// </summary>
-        public Layout CountryCode { get; set; }
+        public Layout? CountryCode { get; set; }
 
         /// <summary>
         /// Get or set whether to activate AppCenter-Crashes and report Exceptions as crashes
@@ -183,7 +183,7 @@ namespace NLog.Targets
         ///     The properties keys/names can not be null or empty, maximum allowed key length = 125.
         ///     The properties values can not be null, maximum allowed value length = 125.
         /// </remarks>
-        private IDictionary<string, string> BuildProperties(LogEventInfo logEvent)
+        private IDictionary<string, string>? BuildProperties(LogEventInfo logEvent)
         {
             if (ShouldIncludeProperties(logEvent))
             {
@@ -211,7 +211,7 @@ namespace NLog.Targets
             return null;
         }
 
-        private void TrackEvent(string eventName, Exception exception, IDictionary<string, string> properties = null)
+        private void TrackEvent(string eventName, Exception? exception, IDictionary<string, string>? properties = null)
         {
             if (ReportExceptionAsCrash && exception != null)
             {

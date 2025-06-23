@@ -14,8 +14,8 @@ namespace NLog.Targets.AppCenter.Tests
             Assert.Throws<KeyNotFoundException>(() => stringDictionary["key"]);
             objectDictionary["key"] = "value";
             Assert.Equal("value", stringDictionary["key"]);
-            stringDictionary["key"] = null;
-            Assert.Null(stringDictionary["key"]);
+            stringDictionary["key"] = string.Empty;
+            Assert.Equal(string.Empty, stringDictionary["key"]);
         }
 
         [Fact]

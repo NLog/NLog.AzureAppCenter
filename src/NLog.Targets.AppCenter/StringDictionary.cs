@@ -42,9 +42,9 @@ namespace NLog.Targets
     /// </summary>
     internal class StringDictionary : IDictionary<string, string>
     {
-        private readonly IDictionary<string, object> _dictionary;
+        private readonly IDictionary<string, object?> _dictionary;
 
-        public StringDictionary(IDictionary<string, object> dictionary)
+        public StringDictionary(IDictionary<string, object?> dictionary)
         {
             _dictionary = dictionary;
         }
@@ -79,7 +79,7 @@ namespace NLog.Targets
 
         public void Add(KeyValuePair<string, string> item)
         {
-            _dictionary.Add(new KeyValuePair<string, object>(item.Key, item.Value));
+            _dictionary.Add(new KeyValuePair<string, object?>(item.Key, item.Value));
         }
 
         public void Clear()
@@ -89,7 +89,7 @@ namespace NLog.Targets
 
         public bool Contains(KeyValuePair<string, string> item)
         {
-            return _dictionary.Contains(new KeyValuePair<string, object>(item.Key, item.Value));
+            return _dictionary.Contains(new KeyValuePair<string, object?>(item.Key, item.Value));
         }
 
         public bool ContainsKey(string key)
@@ -126,7 +126,7 @@ namespace NLog.Targets
 
         public bool Remove(KeyValuePair<string, string> item)
         {
-            return _dictionary.Contains(new KeyValuePair<string, object>(item.Key, item.Value));
+            return _dictionary.Contains(new KeyValuePair<string, object?>(item.Key, item.Value));
         }
 
         public bool TryGetValue(string key, out string value)
@@ -136,7 +136,7 @@ namespace NLog.Targets
                 value = ConvertToString(objectValue);
                 return true;
             }
-            value = null;
+            value = string.Empty;
             return false;
         }
 
@@ -145,11 +145,11 @@ namespace NLog.Targets
             return GetEnumerator();
         }
 
-        private string ConvertToString(object value)
+        private string ConvertToString(object? value)
         {
             try
             {
-                return value?.ToString();
+                return value?.ToString() ?? string.Empty;
             }
             catch
             {

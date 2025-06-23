@@ -16,7 +16,7 @@ namespace NLog
         /// <param name="layout">Override the default Layout for output</param>
         /// <param name="appSecret">appsecret for starting AppCenter if needed</param>
         /// <param name="reportExceptionAsCrash">activate AppCenter-Crashes and report Exceptions as crashes</param>
-        public static ISetupConfigurationTargetBuilder WriteToAppCenter(this ISetupConfigurationTargetBuilder configBuilder, Layout layout = null, Layout appSecret = null, bool reportExceptionAsCrash = false)
+        public static ISetupConfigurationTargetBuilder WriteToAppCenter(this ISetupConfigurationTargetBuilder configBuilder, Layout? layout = null, Layout? appSecret = null, bool reportExceptionAsCrash = false)
         {
             var logTarget = new AppCenterTarget();
             if (layout != null)
