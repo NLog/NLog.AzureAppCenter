@@ -16,8 +16,8 @@ NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.mi
    or in your csproj:
 
     ```xml
-    <PackageReference Include="NLog.Targets.AppCenter" Version="5.*" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="5.*" />
+    <PackageReference Include="NLog.Targets.AppCenter" Version="6.*" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="6.*" />
     ```
 
 2) **Add NLog to the MauiApp**
