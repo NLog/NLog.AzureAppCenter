@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
-    <VersionPrefix>6.0.1</VersionPrefix>
+    <VersionPrefix>6.0.2</VersionPrefix>
     <AssemblyVersion>6.0.0.0</AssemblyVersion> <!-- Strong AssemblyVersion must be fixed on 6.0.0.0 -->
     <AppVeyorBuildNumber>$(APPVEYOR_BUILD_NUMBER)</AppVeyorBuildNumber>
     <AppVeyorBuildNumber Condition="'$(AppVeyorBuildNumber)' == ''">0</AppVeyorBuildNumber>
@@ -19,7 +19,7 @@
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-- NLog v6.0.1 with AOT support
+- NLog v6.0.2 with AOT support
 - Notice Microsoft AppCenter will be retired - https://learn.microsoft.com/appcenter/retirement
     </PackageReleaseNotes>
 
@@ -41,7 +41,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.7" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.7" />
-    <PackageReference Include="NLog" Version="6.0.1" />
+    <PackageReference Include="NLog" Version="6.0.2" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
