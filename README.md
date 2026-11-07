@@ -2,7 +2,7 @@
 NLog Target for [Microsoft Visual Studio App Center with Azure](https://azure.microsoft.com/services/app-center/)
 
 [![Version](https://badge.fury.io/nu/NLog.Targets.AppCenter.svg)](https://www.nuget.org/packages/NLog.Targets.AppCenter)
-[![AppVeyor](https://img.shields.io/appveyor/ci/nlog/nlog-azureappcenter/master.svg)](https://ci.appveyor.com/project/nlog/nlog-azureappcenter/branch/master)
+[![CI](https://github.com/NLog/NLog.AzureAppCenter/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/NLog/NLog.AzureAppCenter/actions/workflows/ci.yml)
 
 ⚠️ Microsoft AppCenter will be retired - https://learn.microsoft.com/appcenter/retirement
 
