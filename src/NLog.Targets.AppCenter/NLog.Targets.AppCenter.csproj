@@ -4,9 +4,7 @@
     <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
     <VersionPrefix>6.0.2</VersionPrefix>
     <AssemblyVersion>6.0.0.0</AssemblyVersion> <!-- Strong AssemblyVersion must be fixed on 6.0.0.0 -->
-    <AppVeyorBuildNumber>$(APPVEYOR_BUILD_NUMBER)</AppVeyorBuildNumber>
-    <AppVeyorBuildNumber Condition="'$(AppVeyorBuildNumber)' == ''">0</AppVeyorBuildNumber>
-    <FileVersion>$(VersionPrefix).$(AppVeyorBuildNumber)</FileVersion>
+    <FileVersion>$(VersionPrefix).0</FileVersion>
 
     <Title>NLog.Targets.AppCenter</Title>
     <Company>NLog</Company>
@@ -42,7 +40,7 @@
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.7" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.7" />
     <PackageReference Include="NLog" Version="6.0.2" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="3.53.3" ExcludeAssets="build;buildTransitive" />
   </ItemGroup>
 
   <ItemGroup>
